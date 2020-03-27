@@ -17,7 +17,7 @@ class CPU:
         self.E = 0
         self.L = 0
         self.G = 0
-        self.live = True
+        self.running = True
 
     def ram_read(self, MAR):
         return self.ram[MAR]
@@ -67,10 +67,10 @@ class CPU:
 
     def trace(self):
         print(f"Trace: %02X | %02X %02X %02X |" % (
-            self.pc,
-            self.ram_read(self.pc),
-            self.ram_read(self.pc + 1),
-            self.ram_read(self.pc + 2),
+            self.PC,
+            self.ram_read(self.PC),
+            self.ram_read(self.PC + 1),
+            self.ram_read(self.PC + 2),
         ), end="")
 
         for i in range(8):
@@ -102,7 +102,7 @@ class CPU:
             op_b = self.ram_read(self.PC + 2)
 
             if self.ram[self.PC] == HLT:
-                self.live == False
+                self.running == False
                 break
 
             elif self.ram[self.PC] == LDI:
@@ -161,3 +161,8 @@ class CPU:
                 running = False
                 break
                 print("Program exiting...")
+
+
+c = CPU()
+c.load()
+c.run()
